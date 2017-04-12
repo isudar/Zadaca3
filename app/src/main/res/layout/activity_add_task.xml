@@ -1,0 +1,33 @@
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="NOVI ZADATAK"
+        android:textAlignment="center"
+        android:textSize="30dp"/>
+    <EditText
+        android:id="@+id/etNaslov"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Naslov zadatka" />
+
+    <EditText
+        android:id="@+id/etOpis"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Opis zadatka"/>
+    <Spinner
+        android:id="@+id/spTezina"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></Spinner>
+    <Button
+        android:id="@+id/bDodaj"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="dodaj zadatak"/>
+
+</LinearLayout>
