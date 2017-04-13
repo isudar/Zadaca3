@@ -46,6 +46,13 @@ public class AddTask extends Activity implements View.OnClickListener {
         String Opis = String.valueOf(etOpis.getText());
         String Prioritet = String.valueOf(spTezina.getId());
 
+        DBHelper databaseHelper = DBHelper.getInstance(this);
+        databaseHelper.createTask(new Task(
+                Naslov,
+                Opis,
+                Prioritet
+        ));
+        finish();
 
 
     }

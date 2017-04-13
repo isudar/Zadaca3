@@ -26,6 +26,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String TABLE_TASK = "Zadaci";
 
     // Contacts Table Columns names
+
     private static final String NASLOV = "naslov";
     private static final String OPIS = "opis";
     private static final String PRIORITET = "prioritet";
@@ -64,11 +65,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public ArrayList<Task> getAllTasks()
     {
-        // Usage of a raw query:
-        String SELECT_ALL_TASKS = "SELECT "+NASLOV+","
-                +OPIS+","+PRIORITET+" FROM "+TABLE_TASK;
         ArrayList<Task> myTask = new ArrayList<>();
         SQLiteDatabase database = this.getReadableDatabase();
+        // Usage of a raw query:
+        String SELECT_ALL_TASKS = "SELECT * FROM "+TABLE_TASK;
+
         Cursor myTaskCursor = database.rawQuery(SELECT_ALL_TASKS, null);
         if(myTaskCursor.moveToFirst())
         {
@@ -85,15 +86,26 @@ public class DBHelper extends SQLiteOpenHelper {
         database.close();
         return myTask;
     }
-    public void insertCar(Task task) {
+
+
+
+    public void createTask(Task task) {
         //Using the insert method of the database object:
         ContentValues taskValues = new ContentValues();
         taskValues.put(NASLOV,task.getNaslov());
-        taskValues.put(OPIS,task.getSadrzaj());
+        taskValues.put(OPIS,task.getOpis());
         taskValues.put(PRIORITET,task.getPrioritet());
+
 
         SQLiteDatabase db = this.getWritableDatabase();
         db.insert(TABLE_TASK, null ,taskValues);
         db.close();
+    }
+
+    public void Delete(Task id){
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+
+        sqLiteDatabase.delete(TABLE_TASK, NASLOV + " = ?",new String[] {String.valueOf(id)});
+        sqLiteDatabase.close();
     }
 }

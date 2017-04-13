@@ -6,12 +6,12 @@ package com.example.sudo.zadaca3;
 
 public class Task {
     private String Naslov;
-    private String Sadrzaj;
+    private String Opis;
     private String Prioritet;
 
-    public Task(String naslov, String sadrzaj, String prioritet) {
+    public Task(String naslov, String opis, String prioritet) {
         Naslov = naslov;
-        Sadrzaj = sadrzaj;
+        Opis = opis;
         Prioritet = prioritet;
     }
 
@@ -23,12 +23,12 @@ public class Task {
         Naslov = naslov;
     }
 
-    public String getSadrzaj() {
-        return Sadrzaj;
+    public String getOpis() {
+        return Opis;
     }
 
-    public void setSadrzaj(String sadrzaj) {
-        Sadrzaj = sadrzaj;
+    public void setOpis(String opis) {
+        Opis = opis;
     }
 
     public String getPrioritet() {

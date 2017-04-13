@@ -1,5 +1,6 @@
 package com.example.sudo.zadaca3;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
@@ -19,12 +20,42 @@ import java.util.ArrayList;
  * Created by Sudo on 12.4.2017..
  */
 
-    public class TaskAdapter extends BaseAdapter {
+public class TaskAdapter extends BaseAdapter {
 
 
-        ArrayList<Task> mTasks;
+    private ArrayList<Task> mTasks;
+    private Activity activity;
+    private DBHelper DBHelper;
 
-        public TaskAdapter(ArrayList<Task> tasks) { mTasks = tasks; }
+
+    public TaskAdapter(ArrayList<Task> mTasks, Activity activity, DBHelper DBHelper) {
+        this.mTasks = mTasks;
+        this.activity = activity;
+        this.DBHelper = DBHelper;
+    }
+
+    public TaskAdapter(ArrayList<Task> tasks) {
+        mTasks = tasks;
+    }
+
+
+    public  void deleteTask(int position) {
+        this.mTasks.remove(position);
+        this.notifyDataSetChanged();
+    }
+
+
+    static private class TaskViewHolder {
+        TextView tvNaslov;
+        TextView tvOpis;
+        TextView tvPrioritet;
+
+        TaskViewHolder(View view) {
+            tvNaslov = (TextView) view.findViewById(R.id.tvNaslov);
+            tvOpis = (TextView) view.findViewById(R.id.tvOpis);
+            tvPrioritet = (TextView) view.findViewById(R.id.tvPrioritet);
+        }
+    }
 
     @Override
     public int getCount() {
@@ -41,54 +72,25 @@ import java.util.ArrayList;
         return position;
     }
 
-
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        TaskViewHolder taskViewHolder;
-        TaskViewHolder holder = null;
-        Context parentContext = parent.getContext();
+        TaskViewHolder holder;
 
-        if(null==convertView)
-        {
-            convertView = View.inflate(parentContext, R.layout.item_task,null);
-
-            taskViewHolder = new TaskViewHolder();
-
-            holder.tvNaslov =
-                    (TextView) convertView.findViewById(R.id.tvNaslov);
-            holder.tvOpis =
-                    (TextView) convertView.findViewById(R.id.tvOpis);
-            holder.tvPrioritet =
-                    (TextView) convertView.findViewById(R.id.tvPrioritet);
-
-            convertView.setTag(taskViewHolder);
+        if(convertView == null){
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            convertView = inflater.inflate(R.layout.item_task, parent, false);
+            holder = new TaskViewHolder(convertView);
+            convertView.setTag(holder);
         }
-        else
-        {
-            taskViewHolder = (TaskViewHolder) convertView.getTag();
+        else{
+            holder = (TaskViewHolder) convertView.getTag();
         }
+        Task task = this.mTasks.get(position);
+        holder.tvNaslov.setText(task.getNaslov());
+        holder.tvOpis.setText(task.getOpis());
+        holder.tvPrioritet.setText(String.valueOf(task.getPrioritet()));
         return convertView;
     }
 
-    public static class ViewHolder  extends RecyclerView.ViewHolder  {
-            public TextView tvNaslov, tvOpis, tvPrioritet;
-            public ViewHolder(View itemView) {
-                super(itemView);
-                this.tvNaslov = (TextView) itemView.findViewById(R.id.tvNaslov);
-                this.tvOpis = (TextView) itemView.findViewById(R.id.tvOpis);
-                this.tvPrioritet = (TextView) itemView.findViewById(R.id.tvPrioritet);
-            }
-        }
-    public void remove(int position) {
-        this.mTasks.remove(position);
-        this.notifyDataSetChanged();
-    }
-    static class TaskViewHolder
-    {
-        private TextView tvNaslov;
-        private TextView tvOpis;
-        private TextView tvPrioritet;
-    }
-    }
+}
 
