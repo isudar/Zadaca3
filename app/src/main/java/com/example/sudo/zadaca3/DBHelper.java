@@ -2,6 +2,7 @@ package com.example.sudo.zadaca3;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -27,6 +28,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     // Contacts Table Columns names
 
+    private static final String KEY_ID = "id";
     private static final String NASLOV = "naslov";
     private static final String OPIS = "opis";
     private static final String PRIORITET = "prioritet";
@@ -102,10 +104,12 @@ public class DBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void Delete(Task id){
+    public void Delete(int id){
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
 
-        sqLiteDatabase.delete(TABLE_TASK, NASLOV + " = ?",new String[] {String.valueOf(id)});
+        sqLiteDatabase.delete(TABLE_TASK, KEY_ID +  "=?", new String[] {String.valueOf(id)});
         sqLiteDatabase.close();
     }
+
+
 }

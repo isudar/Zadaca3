@@ -44,7 +44,19 @@ public class AddTask extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         String Naslov = String.valueOf(etNaslov.getText());
         String Opis = String.valueOf(etOpis.getText());
-        String Prioritet = String.valueOf(spTezina.getId());
+        String Prioritet = null;
+        int prioritet = (int) spTezina.getSelectedItemId();
+        switch (prioritet){
+            case 0:
+                Prioritet = "visoko";
+                break;
+            case 1:
+                Prioritet = "srednje";
+                break;
+            case 2:
+                Prioritet = "nisko";
+                break;
+        }
 
         DBHelper databaseHelper = DBHelper.getInstance(this);
         databaseHelper.createTask(new Task(
@@ -52,6 +64,7 @@ public class AddTask extends Activity implements View.OnClickListener {
                 Opis,
                 Prioritet
         ));
+
         finish();
 
 

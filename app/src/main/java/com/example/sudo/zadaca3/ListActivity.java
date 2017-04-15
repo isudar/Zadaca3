@@ -3,23 +3,20 @@ package com.example.sudo.zadaca3;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements View.OnClickListener {
+public class ListActivity extends AppCompatActivity implements View.OnClickListener, AdapterView.OnItemLongClickListener{
 
     Button bZadatak;
-    public ListView lvTask;
+    ListView lvTask;
 
 
-    private DBHelper dbHelper;
+    DBHelper dbHelper;
     TaskAdapter taskAdapter;
 
     @Override
@@ -32,21 +29,21 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     private void initializeUI() {
 
 
-        this.lvTask = (ListView) findViewById(R.id.lvTask);
-        this.bZadatak = (Button) findViewById(R.id.bZadatak);
-        this.bZadatak.setOnClickListener(this);
-        this.lvTask.setAdapter(taskAdapter);
+            this.lvTask = (ListView) findViewById(R.id.lvTask);
+            this.bZadatak = (Button) findViewById(R.id.bZadatak);
+            this.bZadatak.setOnClickListener(this);
+            this.lvTask.setAdapter(taskAdapter);
 
-        this.taskAdapter = new TaskAdapter(this.loadTasks());
+            this.taskAdapter = new TaskAdapter(this.loadTasks());
 
-        this.lvTask.setOnLongClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public boolean onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                taskAdapter.deleteTask(position);
-                return false;
-            }
 
-        });
+
+            dbHelper = DBHelper.getInstance(this);
+
+            this.taskAdapter = new TaskAdapter(this.loadTasks());
+
+            this.lvTask.setOnItemLongClickListener(this);
+
         dbHelper = DBHelper.getInstance(this);
         ArrayList<Task> task = dbHelper.getAllTasks();
         if (task != null) {
@@ -55,6 +52,7 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
             lvTask.setAdapter(taskAdapter);
         }
     }
+
 
 
 
@@ -71,6 +69,14 @@ public class ListActivity extends AppCompatActivity implements View.OnClickListe
     }
     private ArrayList<Task> loadTasks() {
         return DBHelper.getInstance(this).getAllTasks();
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+        this.taskAdapter.deleteTask(position);
+        dbHelper.Delete(getTaskId());
+        return false;
     }
 }
 

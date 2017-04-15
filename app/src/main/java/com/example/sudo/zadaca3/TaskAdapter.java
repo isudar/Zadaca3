@@ -1,19 +1,12 @@
 package com.example.sudo.zadaca3;
 
 import android.app.Activity;
-import android.content.Context;
-import android.database.DataSetObserver;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 
 /**
@@ -26,6 +19,7 @@ public class TaskAdapter extends BaseAdapter {
     private ArrayList<Task> mTasks;
     private Activity activity;
     private DBHelper DBHelper;
+
 
 
     public TaskAdapter(ArrayList<Task> mTasks, Activity activity, DBHelper DBHelper) {
@@ -85,12 +79,26 @@ public class TaskAdapter extends BaseAdapter {
         else{
             holder = (TaskViewHolder) convertView.getTag();
         }
+
         Task task = this.mTasks.get(position);
         holder.tvNaslov.setText(task.getNaslov());
         holder.tvOpis.setText(task.getOpis());
-        holder.tvPrioritet.setText(String.valueOf(task.getPrioritet()));
+        holder.tvPrioritet.setText(task.getPrioritet());
+        switch (task.getPrioritet()){
+            case "visoko":
+                holder.tvPrioritet.setBackgroundResource(R.color.Važno);
+                break;
+            case "srednje":
+                holder.tvPrioritet.setBackgroundResource(R.color.Srednje);
+                break;
+            case "nisko":
+                holder.tvPrioritet.setBackgroundResource(R.color.Nisko);
+                break;
+        }
+
         return convertView;
     }
+
 
 }
 

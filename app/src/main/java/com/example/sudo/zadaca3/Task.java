@@ -8,6 +8,23 @@ public class Task {
     private String Naslov;
     private String Opis;
     private String Prioritet;
+    private Integer id;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Task(String naslov, String opis, String prioritet, Integer id) {
+
+        Naslov = naslov;
+        Opis = opis;
+        Prioritet = prioritet;
+        this.id = id;
+    }
 
     public Task(String naslov, String opis, String prioritet) {
         Naslov = naslov;
